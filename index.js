@@ -3,9 +3,9 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
-const addressRouter = require('./routes/address');
+const writeRouter = require('./routes/writeExcel');
 
-app.use('/address', addressRouter);
+app.use('/writeExcel', writeRouter);
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
