@@ -18,6 +18,60 @@ var conn = new mysql ({
   dateStrings: "date"
 });
 
+const header_row = [
+  {
+    value: 'No.',
+    fontWeight: 'bold'
+  },
+  {
+    value: 'Name',
+    fontWeight: 'bold'
+  },
+  {
+    value: 'Email',
+    fontWeight: 'bold'
+  },
+  {
+    value: 'Created_at',
+    fontWeight: 'bold'
+  }
+];
+
+router.post('/write', function(req, res){
+  var id = req.body.id;
+
+  var userSql = `SELECT * FROM tbl_user WHERE id=${id};`
+  const user = conn.query(userSql);
+  const data_row = [
+    {
+      type: String,
+      value: user[0].id
+    },
+    {
+      type: String,
+      value: user[0].name
+    },
+    {
+      type: String,
+      value: user[0].email
+    },
+    {
+      type: Date,
+      value: user[0].created_at
+    }
+  ]
+
+  const makeExcel = async()=>{
+    if(!fs.existsSync("./excel")){
+      fs.mkdirSync("./excel");
+    }
+    await writeXlsxFile(data, {
+      filePath: `./excel/user_${id}.xlsx`
+    });
+  }
+  
+})
+
 
 
 module.exports = router;
