@@ -44,7 +44,7 @@ router.post('/write', function(req, res){
   const user = conn.query(userSql);
   const data_row = [
     {
-      type: String,
+      type: Number,
       value: user[0].id
     },
     {
