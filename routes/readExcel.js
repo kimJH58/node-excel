@@ -1,22 +1,26 @@
 const express = require('express');
 const router = express.Router();
-const bodyParser = require('body-parser');
-const mysql = require('sync-mysql');
 const writeXlsxFile = require('read-excel-file');
 const fs = require('fs');
 const app = express();
 
-require('dotenv').config();
-
-var conn = new mysql ({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PW,
-  port: process.env.DB_PORT,
-  database: process.env.DB_DATABASE,
-  multipleStatements: true,
-  dateStrings: "date"
-});
+router.get('/read', function(req, res){
+  
+  writeXlsxFile("./users.xlsx").then((rows) =>{
+    let data = [];
+    for(let i=0; i<rows.length; i++){
+      const rowsData = {
+        userId : rows[i][0],
+        userName : rows[i][1],
+        userEmail : rows[i][2]
+      };
+      data.push(rowsData);
+    }
+    const dataList = JSON.stringify(data);
+    console.log(dataList);
+  })
+  
+})
 
 
 
